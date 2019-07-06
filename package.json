@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/hrm123/html5#readme",
   "dependencies": {
-    "html5-boilerplate": "^7.2.0"
+    "html5-boilerplate": "^7.2.0",
+    "line-navigator": "^2.1.6"
   }
 }

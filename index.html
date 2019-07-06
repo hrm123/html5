@@ -29,11 +29,50 @@
   <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
   <script src="js/plugins.js"></script>
   <script src="js/main.js"></script>
+  <script src="node_modules/line-navigator/file-wrapper.js"></script>	
+  <script src="node_modules/line-navigator/line-navigator.js"></script>	
+  <ul>
+    <li><a  href="#fileDmeo">File Reading</li>
+      <li><a  href="#fileDmeo">File Reading</li>
+  </ul>
+  <div>
+
+  </div>
+  <div id="#fileDemo">
+      Select a file: 
+      <input type="file" id="fileInput">
+      <pre id="fileDisplayArea"></pre>
+  </div>
+  <div id="fileParser">
+      <input id="input-file" type="file" name="files[]" onchange="mainNS.OnFileSelected();" />
+      <div id="fileDisplayArea1"></div>
+  </div>
 
   <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
   <script>
     window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
-    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview')
+    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview');
+    window.onload = function() {
+        var fileInput = document.getElementById('fileInput');
+        var fileDisplayArea = document.getElementById('fileDisplayArea');
+
+        fileInput.addEventListener('change', function(e) {
+            var file = fileInput.files[0];
+            var textType = /text.*/;
+
+            if (file.type.match(textType)) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    fileDisplayArea.innerText = reader.result;
+                }
+
+                reader.readAsText(file);    
+            } else {
+                fileDisplayArea.innerText = "File not supported!"
+            }
+        });
+  }
   </script>
   <script src="https://www.google-analytics.com/analytics.js" async></script>
 </body>
