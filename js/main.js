@@ -35,11 +35,14 @@
     };
 
     MainNS.Vehicle.prototype.ToUI = function(){
+        var innerHtm = "<div class=\"card\" style=\"width: 100%;\">" +
+        "<div class=\"card-body\">" +
+          "<h5 class=\"card-title\">Vehicle</h5>" +
+          "<p class=\"card-text\">Year :" + this.vehicleYear + "</p>" +
+        "</div></div>";
         var divV = document.createElement("div");
         divV.setAttribute("class", "col-sm-6");
-        var p = document.createElement("p");
-        p.innerText = "VehicleYear :" + this.vehicleYear;
-        divV.appendChild(p);
+        divV.innerHTML = innerHtm;
         return divV;
     }
 
@@ -57,11 +60,15 @@
     }
 
     MainNS.VehicleAccident.prototype.ToUI = function(){
+
+        var innerHtm = "<div class=\"card\" style=\"width: 100%;\">" +
+        "<div class=\"card-body\">" +
+          "<h5 class=\"card-title\">Accident</h5>" +
+          "<p class=\"card-text\">Year :" + this.year + "</p>" +
+        "</div></div>";
         var divVA = document.createElement("div");
         divVA.setAttribute("class", "col-sm-6");
-        var p = document.createElement("p");
-        p.innerText = "AccidentYear :" + this.year;
-        divVA.appendChild(p);
+        divVA.innerHTML = innerHtm;
         return divVA;
     }
 
