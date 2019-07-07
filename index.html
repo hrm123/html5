@@ -46,6 +46,12 @@
       <pre id="fileDisplayArea"></pre>
   </div>
   <div id="fileParser">
+      <select onchange="MainNS.filterData(this)">
+            <option value="2000">2000</option>
+            <option value="2010">2010</option>
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+          </select>
       <input id="input-file" type="file" name="files[]" onchange="MainNS.OnFileSelected1();" />
       <div id="fileDisplayArea1" class="container-fluid"></div>
   </div>

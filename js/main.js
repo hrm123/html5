@@ -72,6 +72,13 @@
         return divVA;
     }
 
+    MainNS.filterData =  function(selectObject) {
+        var value = selectObject.value;  
+        var filteredAccidents = vehicleAccidents.filter(filerAccidentsByYear(value));
+        var filteredVehicles = filteredAccidents.map( a => a.vehicle);
+        renderVehiclesAndAccidents(filteredAccidents, filteredVehicles);
+    }
+
     MainNS.OnFileSelected = function() {
         // Get file list from input
         var fdispArea = document.getElementById('fileDisplayArea1');
@@ -101,6 +108,15 @@
         });            
     }   
 
+    var vehicles = [];
+    var vehicleAccidents = [];
+
+    filerAccidentsByYear = function(yr){
+        return function(elem){
+            return elem.year === yr;
+        }
+    }
+
     MainNS.OnFileSelected1 = function() {
         // Get file list from input
         var fdispArea = document.getElementById('fileDisplayArea1');
@@ -118,22 +134,46 @@
                 var lineIndex = index + i;
                 var line = lines[i];
                 // Do something with line
-                var divRow = document.createElement("div");
-                divRow.setAttribute("class", "row");
                 
                 var v = new MainNS.Vehicle(line);
+                vehicles.push(v);
                 var a = new MainNS.VehicleAccident(line, v);
-                divRow.appendChild(a.ToUI());
-                divRow.appendChild(v.ToUI());
-                document.getElementById('fileDisplayArea1').appendChild(divRow);
+                vehicleAccidents.push(a);
+                
             }
             // progress is a position of the last read line as % from whole file length
             // End of file
-            if (isEof) return;  
+            if (isEof){ 
+                var  divTR = document.getElementById('Toprow');
+                divTR.innerHTML = "Total accidents: " + vehicleAccidents.length;
+                renderVehiclesAndAccidents(vehicleAccidents, vehicles);
+                return;  
+            }
             // Reading next chunk, adding number of lines read to first line in current chunk
             navigator.readSomeLines(index + lines.length, linesReadHandler, fdispArea);
-        });            
+        });       
+
+        
+        
+        var divRowTop = document.createElement("div");
+        divRowTop.setAttribute("class", "row");    
+        divRowTop.setAttribute("id", "Toprow");     
+        document.getElementById('fileDisplayArea1').appendChild(divRowTop);
+        divRowTop.innerHTML = "<IMG src=\"img/loading.gif\">";
     }   
+
+    renderVehiclesAndAccidents = function(accidents, vehicles){
+        for(var i=0;i <accidents.length; i++){
+            var divRow = document.createElement("div");
+                divRow.setAttribute("class", "row");
+                var a = accidents[i];
+                var v = vehicles[i];
+                divRow.appendChild(a.ToUI());
+                divRow.appendChild(v.ToUI());
+                document.getElementById('fileDisplayArea1').appendChild(divRow);
+
+        }
+    }
     
 
 })( window.MainNS = window.MainNS || {});
