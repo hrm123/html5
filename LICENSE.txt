@@ -17,3 +17,54 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+1. ES6 class - As before, each class consists of a constructor function and a prototype object which refer to 
+each other via the prototype and constructor properties. However, the order of definition of the two is reversed. 
+With an old style class, you define the constructor function, and the prototype object is created for you. With a new 
+style class, the body of the class definition becomes the contents of the prototype object (except for static methods),
+ and among them, you define a constructor. The end result is the same either way.
+super - can be used to access base class constructor and to access properties of base class. This is acheived
+ by using new field in Function called [[HomeClass]]. THis new property is fixed at definition time and will not change
+  later even if you assign function to other objects. As a side note, super is not limited to class definitions. It can also 
+  be used from any function defined within
+   an object literal using the new method shorthand syntax, in which case [[HomeObject]] will be the enclosing object literal.
+(https://medium.com/@robertgrosse/how-es6-classes-really-work-and-how-to-build-your-own-fd6085eb326a)
+
+super can be called from static methods.. only diff is that now [[HomeObject]] will be construtor functon rather than prototype obejct.
+
+ class Base { foo(){} bar(){} }
+ class Child extends Base { constructor() { super(); } foo(){} whiz(){} }
+ const b = new Base();
+ const c = new Childe();
+
+ b -> Base.prototype -> Object.prototype -> null
+ c -> Child.prototype -> Base.prototype -> Object.prototype -> null
+ Child -> Base -> Function.prototype -> null
+
+ 2. ES5 based structure for above
+ function Base() {}
+Base.prototype.foo = function() {return 'foo in Base';};
+Base.prototype.bar = function() {return 'bar in Base';};
+
+function Child() {}
+Object.setPrototypeOf(Child, Base);
+Object.setPrototypeOf(Child.prototype, Base.prototype);
+Child.prototype.foo = function() {return 'foo in Child';};
+Child.prototype.whiz = function() {return 'whiz in Child';};
+
+var b = new Base;
+var c = new Child;
+
+THis code avoids any functionality of ES6 super ( that gives access to the properties and constructor of super class ) 
+which is impossible to fully emulate in ES5.
+
+3. Interoperability
+Subclass constructors dont create this obejt like a super class constructor. You ahve to call super(args) so that this will be created.
+This of course presents problems if you want to create an old style class that can properly
+ interoperate with new style classes. There is no problem when subclassing an old style class with a new style class,
+  since the base class constructor is just an ordinary constructor function either way. However, subclassing a new style 
+  class with an old style class will not work properly, since old style constructors are always base constructors and don’t 
+  have the special subclass constructor behavior.
+
+https://medium.com/@robertgrosse/how-es6-classes-really-work-and-how-to-build-your-own-fd6085eb326a ****

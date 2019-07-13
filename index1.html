@@ -1,0 +1,103 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <meta name="theme-color" content="#fafafa">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+
+    <script>
+        [
+            'js/cacheStore.js',
+            'js/main1.js'
+        ].forEach(function(src) {
+            var script = document.createElement('script');
+            script.src = src;
+            script.async = false;
+            document.head.appendChild(script);
+        });
+    </script>
+</head>
+
+<body>
+  <!--[if IE]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <p>Hello world! This is HTML5 Boilerplate.</p>
+  <script src="js/vendor/modernizr-3.7.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+  <script src="js/plugins.js"></script>
+  <!-- srcipt src="js/cacheStore.js"></srcipt -->
+  <!-- script src="js/main1.js"></script -->
+  <script src="node_modules/line-navigator/file-wrapper.js"></script>	
+  <script src="node_modules/line-navigator/line-navigator.js"></script>	
+  <ul>
+    <li><a  href="#fileDmeo">File Reading</li>
+      <li><a  href="#fileDmeo">File Reading</li>
+  </ul>
+  <div>
+
+  </div>
+  <div id="#fileDemo">
+      Select a file: 
+      <input type="file" id="fileInput">
+      <pre id="fileDisplayArea"></pre>
+  </div>
+  <div id="fileParser">
+      <select onchange="MainNS1.filterData(this)">
+            <option value="2000">2000</option>
+            <option value="2010">2010</option>
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+          </select>
+          <div id="uploadFile_div">
+      <input id="input-file" type="file" name="files[]" onchange="MainNS1.OnFileSelected1();" />
+          </div>
+      <div id="fileDisplayArea1" class="container-fluid"></div>
+  </div>
+
+  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+  <script>
+    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview');
+    window.onload = function() {
+        var fileInput = document.getElementById('fileInput');
+        var fileDisplayArea = document.getElementById('fileDisplayArea');
+
+        fileInput.addEventListener('change', function(e) {
+            var file = fileInput.files[0];
+            var textType = /text.*/;
+
+            if (file.type.match(textType)) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    fileDisplayArea.innerText = reader.result;
+                }
+
+                reader.readAsText(file);    
+            } else {
+                fileDisplayArea.innerText = "File not supported!"
+            }
+        });
+  }
+  </script>
+  <script src="https://www.google-analytics.com/analytics.js" async></script>
+</body>
+
+</html>

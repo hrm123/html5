@@ -170,6 +170,13 @@
                 var v = vehicles[i];
                 divRow.appendChild(a.ToUI());
                 divRow.appendChild(v.ToUI());
+                if(i%10000){
+                    console.log(i);
+                    if(i>50000)
+                    {
+                        return;
+                    }
+                }
                 document.getElementById('fileDisplayArea1').appendChild(divRow);
 
         }
