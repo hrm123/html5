@@ -18,17 +18,19 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
 
-    <script>
+    <!-- script>
+        //NEED THIS METHOD SO AS TO AVOID CORS ERROR WHILE LOADING
         [
-            'js/cacheStore.js',
+            'js/cacheStoreLocal.js',
             'js/main1.js'
         ].forEach(function(src) {
             var script = document.createElement('script');
             script.src = src;
             script.async = false;
+            script.type="module";
             document.head.appendChild(script);
         });
-    </script>
+    </script -->
 </head>
 
 <body>
@@ -59,14 +61,14 @@
       <pre id="fileDisplayArea"></pre>
   </div>
   <div id="fileParser">
-      <select onchange="MainNS1.filterData(this)">
+      <select onchange="mainNs1.filterData(this)">
             <option value="2000">2000</option>
             <option value="2010">2010</option>
             <option value="2015">2015</option>
             <option value="2016">2016</option>
           </select>
           <div id="uploadFile_div">
-      <input id="input-file" type="file" name="files[]" onchange="MainNS1.OnFileSelected1();" />
+      <input id="input-file" type="file" name="files[]" onchange="mainNs1.OnFileSelected1();" />
           </div>
       <div id="fileDisplayArea1" class="container-fluid"></div>
   </div>
@@ -97,7 +99,11 @@
         });
   }
   </script>
-  <script src="https://www.google-analytics.com/analytics.js" async></script>
+  <!-- mjs is just convention sake so as to know these files contain ES6 module -->
+  <script type="module"  >
+      import { MainNS1 } from "./js/main1.mjs";
+    window.mainNs1 = new MainNS1();
+  </script>
 </body>
 
 </html>

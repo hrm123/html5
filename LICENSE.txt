@@ -19,6 +19,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
+0. To run webserver - change to directory of this folder and run below command:
+python3 -m http.server --cgi 8080 
+python -m SimpleHTTPServer 8000 ( for python2)
+
+-- use following if you want npm server
+npm i -g serve 
+serve
+
+after runnign one of the above commands browse to -
+
+http://localhost:8080/index1.html
+
+
+
 1. ES6 class - As before, each class consists of a constructor function and a prototype object which refer to 
 each other via the prototype and constructor properties. However, the order of definition of the two is reversed. 
 With an old style class, you define the constructor function, and the prototype object is created for you. With a new 

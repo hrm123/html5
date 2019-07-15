@@ -1,48 +1,8 @@
-(function(MainNS1, CacheStoreLocal1){
+import CacheStoreLocal from './cacheStoreLocal.mjs';
 
-    var CacheStoreLocal = {
-        cacheData: {},
-      
-        get: (key) => {
-          if (CacheStoreLocal.cacheData.hasOwnProperty(key) && CacheStoreLocal.cacheData[key].val) {
-            return CacheStoreLocal.cacheData[key].val;
-          }
-          return false;
-        },
-      
-        set: (key, value, expiry) => {
-      
-          CacheStoreLocal.clear(key); // Clear before we store it so we can clean up the timeout.
-      
-          var to = false;
-          if (expiry && parseInt(expiry) > 0) {
-            to = setTimeout(function() {
-              CacheStoreLocal.clear(key);
-            }, parseInt(expiry));
-          }
-      
-          CacheStoreLocal.cacheData[key] = {
-                expiry: expiry,
-                val: value,
-                timeout: to,
-              };
-        },
-      
-        clear: (key) => {
-          if (CacheStoreLocal.cacheData.hasOwnProperty(key)) {
-            if (CacheStoreLocal.cacheData[key].to) {
-              clearTimeout(CacheStoreLocal.cacheData[key].to);
-            }
-      
-            delete CacheStoreLocal.cacheData[key];
-            return true;
-          }
-      
-          return false;
-        },
-      };
 
-    MainNS1.Constants = {
+
+    export const MainNS1_Constants = {
         AccidentYear : 0,
         CaseId : 1,
         BodyType : 2,
@@ -64,16 +24,16 @@
         PartialVin: 18
     };
 
-    class Vehicle1{
+    export class Vehicle1{
         constructor(dataLine){
             var datas = dataLine.split(',');
-            this.vehicleYear = datas[MainNS1.Constants.VehicleYear];
-            this.bodyType = datas[MainNS1.Constants.BodyType];
-            this.fuelType = datas[MainNS1.Constants.FuelType];
-            this.regState = datas[MainNS1.Constants.StateOfReg];
-            this.engCyl = datas[MainNS1.Constants.EngineCyl];
-            this.make = datas[MainNS1.Constants.VehicleMake];
-            this.pvin = datas[MainNS1.Constants.PartialVin];
+            this.vehicleYear = datas[MainNS1_Constants.VehicleYear];
+            this.bodyType = datas[MainNS1_Constants.BodyType];
+            this.fuelType = datas[MainNS1_Constants.FuelType];
+            this.regState = datas[MainNS1_Constants.StateOfReg];
+            this.engCyl = datas[MainNS1_Constants.EngineCyl];
+            this.make = datas[MainNS1_Constants.VehicleMake];
+            this.pvin = datas[MainNS1_Constants.PartialVin];
         }
         ToUI = () => {
             var innerHtm = "<div class=\"card\" style=\"width: 100%;\">" +
@@ -91,17 +51,17 @@
     var vehicles = [];
     var vehicleAccidents = [];
 
-    class VehicleAccident1{
+    export class VehicleAccident1{
         constructor(dataLine, vehicle){
             var datas = dataLine.split(',');
             this.vehicle = vehicle;
-            this.year = datas[MainNS1.Constants.AccidentYear];
-            this.caseid = datas[MainNS1.Constants.CaseId];
-            this.aptoa = datas[MainNS1.Constants.AptoA];
-            this.confac1 = datas[MainNS1.Constants.ContribFac1];
-            this.confac1d = datas[MainNS1.Constants.ContribFac1Desc];
-            this.confac2 = datas[MainNS1.Constants.ContribFac2];
-            this.confac2d = datas[MainNS1.Constants.ContribFac2Desc]; 
+            this.year = datas[MainNS1_Constants.AccidentYear];
+            this.caseid = datas[MainNS1_Constants.CaseId];
+            this.aptoa = datas[MainNS1_Constants.AptoA];
+            this.confac1 = datas[MainNS1_Constants.ContribFac1];
+            this.confac1d = datas[MainNS1_Constants.ContribFac1Desc];
+            this.confac2 = datas[MainNS1_Constants.ContribFac2];
+            this.confac2d = datas[MainNS1_Constants.ContribFac2Desc]; 
         }
 
         ToUI = () => {
@@ -115,9 +75,11 @@
             divVA.innerHTML = innerHtm;
             return divVA;
         }
-    }
+    };
 
-    MainNS1.OnFileSelected1 = function() {
+    export class MainNS1{ 
+        
+        OnFileSelected1 = () => {
             var divRowTop = document.createElement("div");
             divRowTop.setAttribute("class", "row");    
             divRowTop.setAttribute("id", "Toprow");     
@@ -132,7 +94,7 @@
             var navigator = new LineNavigator(files[0]);
             // === Reading all lines ===
             var indexToStartWith = 0; 
-            
+            var that = this;
             debugger;
             if(! CacheStoreLocal.get("vehicles") || ! CacheStoreLocal.get("vehicleAccidents")){
             navigator.readSomeLines(indexToStartWith, function linesReadHandler(err, index, lines, isEof, progress, fdispArea) {
@@ -162,7 +124,7 @@
                     debugger;
                     CacheStoreLocal.set("vehicleAccidents", vehicleAccidents, 3000000); // 50 mins expiry
                     CacheStoreLocal.set("vehicles", vehicles, 3000000); // 50 mins expiry
-                    renderVehiclesAndAccidents1(vehicleAccidents, vehicles);
+                    that.renderVehiclesAndAccidents1(vehicleAccidents, vehicles);
                     
                     
                     document.getElementById("uploadFile_div").innerHTML = document.getElementById("uploadFile_div").innerHTML;
@@ -177,13 +139,13 @@
             vehicles = CacheStoreLocal.get("vehicles");
             var  divTR = document.getElementById('Toprow');
                     divTR.innerHTML = "Total accidents: " + vehicleAccidents.length;
-            renderVehiclesAndAccidents1(vehicleAccidents, vehicles);
+            this.renderVehiclesAndAccidents1(vehicleAccidents, vehicles);
             document.getElementById("uploadFile_div").innerHTML = document.getElementById("uploadFile_div").innerHTML;
             return;
         }
-    }   
+    };
 
-    renderVehiclesAndAccidents1 = function(accidents, vehicles){
+    renderVehiclesAndAccidents1 = (accidents, vehicles) => {
         for(var i=0;i <accidents.length; i++){
             var divRow = document.createElement("div");
                 divRow.setAttribute("class", "row");
@@ -201,14 +163,14 @@
                 document.getElementById('fileDisplayArea1').appendChild(divRow);
 
         }
-    }
+    };
+    
+}
 
-    MainNS1.filterData =  function(selectObject) {
+    export const MainNS1_filterData =  function(selectObject) {
         var value = selectObject.value;  
         var filteredAccidents = vehicleAccidents.filter(filerAccidentsByYear(value));
         var filteredVehicles = filteredAccidents.map( a => a.vehicle);
         renderVehiclesAndAccidents(filteredAccidents, filteredVehicles);
     }
     
-
-})( window.MainNS1 = window.MainNS1 || {}, window.cacheStore || {});
