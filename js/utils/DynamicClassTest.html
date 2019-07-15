@@ -1,0 +1,42 @@
+
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <meta name="theme-color" content="#fafafa">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+
+</head>
+
+<body>
+  <!--[if IE]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <p>Hello world! This is executing JS file.</p>
+  <script src="OJM_Factory.js" ></script>
+</body>
+<script>
+  
+    const personSample = {"firstName": "fn", "lastName" : "ln"};
+
+    OJM_Factory.generateClass("Person", personSample);
+
+    const person1Data = {"firstName": "fn1", "lastName" : "ln1"};
+    const person1Obj = OJM_Factory.getInstance("Person", person1Data);
+    console.log("Instantiated dynamic class Person with data" , person1Data);
+    console.log("first name got from person Instance: ", person1Obj.firstName);
+</script>
+</html>
