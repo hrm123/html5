@@ -138,7 +138,7 @@
             navigator.readSomeLines(indexToStartWith, function linesReadHandler(err, index, lines, isEof, progress, fdispArea) {
                 // Error happened
                 if (err) throw err;
-                let maxRead = 0;
+
                 // Reading lines
                 for (var i = 0; i < lines.length; i++) {
                     var lineIndex = index + i;
@@ -149,20 +149,19 @@
                     vehicles.push(v);
                     var a = new VehicleAccident1(line, v);
                     vehicleAccidents.push(a);
-                    if(i>50000)
+                    if(vehicleAccidents.length>10000)
                     {
-                        maxRead = i;
                         break;
                     }
                 }
                 // progress is a position of the last read line as % from whole file length
                 // End of file
-                if (isEof || maxRead > 50000){ 
+                if (isEof || vehicleAccidents.length>10000){ 
                     var  divTR = document.getElementById('Toprow');
                     divTR.innerHTML = "Total accidents: " + vehicleAccidents.length;
                     debugger;
-                    CacheStoreLocal.set("vehicleAccidents", vehicleAccidents, 3000); // 50 mins expiry
-                    CacheStoreLocal.set("vehicles", vehicles, 3000); // 50 mins expiry
+                    CacheStoreLocal.set("vehicleAccidents", vehicleAccidents, 3000000); // 50 mins expiry
+                    CacheStoreLocal.set("vehicles", vehicles, 3000000); // 50 mins expiry
                     renderVehiclesAndAccidents1(vehicleAccidents, vehicles);
                     
                     
